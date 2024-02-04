@@ -101,6 +101,7 @@ public class Authenticator {
     private Class<?> craftPlayerClass = null;
     private Method profileMethod = null;
 
+
     /**
      * Initializes the authenticator.
      *
@@ -115,7 +116,7 @@ public class Authenticator {
             profileMethod = craftPlayerClass.getDeclaredMethod("getProfile");
             profileMethod.setAccessible(true);
         } catch (ReflectiveOperationException ex) {
-            plugin.getLogger().log(Level.SEVERE, "An error occurred whilst utilizing server classes!", ex);
+            handleReflectionError(ex);
         }
     }
 
@@ -330,6 +331,11 @@ public class Authenticator {
 
         // Return
         return builder.toString();
+    }
+
+    // New utility method to handle reflection errors
+    private void handleReflectionError(ReflectiveOperationException ex) {
+        plugin.getLogger().log(Level.SEVERE, "An error occurred while utilizing server classes!", ex);
     }
 
 }
